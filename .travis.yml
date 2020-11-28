@@ -1,0 +1,25 @@
+sudo: required
+services:
+    - docker
+
+before install:
+    - docker build -t jipram017/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run jipram017/react-test npm test -- --coverage
+
+after_success:
+    - docker build -t jipram017/multi-client ./client
+    - docker build -t jipram017/multi-nginx ./nginx
+    - docker build -t jipram017/multi-server ./server
+    - docker build -t jipram017/multi-worker ./worker
+    # Login to the Docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push them to Docker hub
+    - docker push jipram017/multi-client
+    - docker push jipram017/multi-nginx
+    - docker push jipram017/multi-server
+    - docker psuh jipram017/multi-worker
+
+
+
