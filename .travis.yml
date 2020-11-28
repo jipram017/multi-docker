@@ -19,7 +19,7 @@ after_success:
     - docker push jipram017/multi-client
     - docker push jipram017/multi-nginx
     - docker push jipram017/multi-server
-    - docker psuh jipram017/multi-worker
+    - docker push jipram017/multi-worker
 
 
 
